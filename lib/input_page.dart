@@ -4,10 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:bmi_calculator/icon_content.dart';
 
-const BOTTOM_CONTAINER_HEIGHT = 80.0;
-const ACTIVE_CARD_COLOR = Color(0xFF1D1E33);
-const BOTTOM_CONTAINER_COLOR = Color(0xffeb1555);
-const CARD_TEXT_COLOR = Color(0xff8d8e98);
+import 'constants.dart';
+
+enum GenderType { male, female }
 
 class InputPage extends StatefulWidget {
   @override
@@ -15,6 +14,21 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  int height = 180;
+  GenderType selectedGender;
+
+  void updateColor(GenderType gender) {
+    this.setState(() {
+      selectedGender = gender;
+    });
+  }
+
+  void onHeightChange(double newValue) {
+    this.setState(() {
+      height = newValue.round();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,73 +40,127 @@ class _InputPageState extends State<InputPage> {
           children: <Widget>[
             Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
                   children: <Widget>[
                     Expanded(
-                      child: ReusableCard(
-                        color: ACTIVE_CARD_COLOR,
-                        cardChild: IconContent(
-                          text: "MALE",
-                          textColor: CARD_TEXT_COLOR,
-                          iconData: FontAwesomeIcons.mars,
-                        ),
+                      child: Row(
+                        children: <Widget>[
+                          ReusableCard(
+                            color: this.selectedGender == GenderType.male
+                                ? kACTIVE_CARD_COLOR
+                                : kINACTIVE_CARD_COLOR,
+                            cardChild: IconContent(
+                              text: "MALE",
+                              textColor: kCARD_TEXT_COLOR,
+                              iconData: FontAwesomeIcons.mars,
+                            ),
+                            onPress: () => this.updateColor(GenderType.male),
+                          ),
+                          SizedBox(width: 24.0),
+                          ReusableCard(
+                            color: this.selectedGender == GenderType.female
+                                ? kACTIVE_CARD_COLOR
+                                : kINACTIVE_CARD_COLOR,
+                            cardChild: IconContent(
+                              text: "FEMALE",
+                              textColor: kCARD_TEXT_COLOR,
+                              iconData: FontAwesomeIcons.venus,
+                            ),
+                            onPress: () => this.updateColor(GenderType.female),
+                          ),
+                        ],
                       ),
                     ),
-                    Container(width: 24.0),
+                    SizedBox(height: 24.0),
+                    ReusableCard(
+                      color: kACTIVE_CARD_COLOR,
+                      cardChild: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(height: 11.0),
+                          Text(
+                            "HEIGHT",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: kCARD_TEXT_COLOR,
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: <Widget>[
+                              Text(
+                                this.height.toString(),
+                                style: TextStyle(
+                                  fontSize: 36.0,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                              Text(
+                                "cm",
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 38.0),
+                            child: SliderTheme(
+                              data: SliderTheme.of(context).copyWith(
+                                thumbShape: RoundSliderThumbShape(
+                                  enabledThumbRadius: 13.0,
+                                ),
+                                overlayShape: RoundSliderOverlayShape(
+                                  overlayRadius: 26.0,
+                                ),
+                                overlayColor: Color(0x1feb1555),
+                                thumbColor: Color(0xffeb1555),
+                                activeTrackColor: Colors.white,
+                                inactiveTrackColor: Color(0xff8d8e98),
+                              ),
+                              child: Slider(
+                                value: height.toDouble(),
+                                min: 120.0,
+                                max: 220.0,
+                                onChanged: this.onHeightChange,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 24.0),
                     Expanded(
-                      child: ReusableCard(
-                        color: ACTIVE_CARD_COLOR,
-                        cardChild: IconContent(
-                          text: "FEMALE",
-                          textColor: CARD_TEXT_COLOR,
-                          iconData: FontAwesomeIcons.venus,
-                        ),
+                      child: Row(
+                        children: <Widget>[
+                          ReusableCard(
+                            color: kACTIVE_CARD_COLOR,
+                          ),
+                          SizedBox(width: 24.0),
+                          ReusableCard(
+                            color: kACTIVE_CARD_COLOR,
+                          ),
+                        ],
                       ),
                     ),
+                    SizedBox(height: 16.0),
                   ],
                 ),
               ),
             ),
-            Container(height: 24.0),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: ReusableCard(
-                  color: ACTIVE_CARD_COLOR,
-                ),
-              ),
-            ),
-            Container(height: 24.0),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: ReusableCard(
-                        color: ACTIVE_CARD_COLOR,
-                      ),
-                    ),
-                    Container(width: 24.0),
-                    Expanded(
-                      child: ReusableCard(
-                        color: ACTIVE_CARD_COLOR,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(height: 16.0),
             Container(
-              color: BOTTOM_CONTAINER_COLOR,
-              height: BOTTOM_CONTAINER_HEIGHT,
+              color: kBOTTOM_CONTAINER_COLOR,
+              height: kBOTTOM_CONTAINER_HEIGHT,
               width: double.infinity,
               child: Center(
                 child: Text("CALCULATE BMI"),
               ),
-            )
+            ),
           ],
         ),
       ),
