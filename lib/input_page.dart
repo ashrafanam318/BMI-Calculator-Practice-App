@@ -1,4 +1,5 @@
 import 'package:bmi_calculator/reusable_card.dart';
+import 'package:bmi_calculator/round_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,6 +16,8 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   int height = 180;
+  int weight = 60;
+  int age = 18;
   GenderType selectedGender;
 
   void updateColor(GenderType gender) {
@@ -77,6 +80,7 @@ class _InputPageState extends State<InputPage> {
                       color: kACTIVE_CARD_COLOR,
                       cardChild: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(height: 11.0),
                           Text(
@@ -140,10 +144,86 @@ class _InputPageState extends State<InputPage> {
                         children: <Widget>[
                           ReusableCard(
                             color: kACTIVE_CARD_COLOR,
+                            cardChild: Column(
+                              children: <Widget>[
+                                SizedBox(height: 11.0),
+                                Text(
+                                  "WEIGHT",
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: kCARD_TEXT_COLOR,
+                                  ),
+                                ),
+                                SizedBox(height: 11.0),
+                                Text(
+                                  this.weight.toString(),
+                                  style: TextStyle(
+                                    fontSize: 36.0,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    RoundIconButton(
+                                      icon: FontAwesomeIcons.minus,
+                                      onPressed: () => this.setState(() {
+                                        this.weight--;
+                                      }),
+                                    ),
+                                    SizedBox(width: 10),
+                                    RoundIconButton(
+                                      icon: FontAwesomeIcons.plus,
+                                      onPressed: () => this.setState(() {
+                                        this.weight++;
+                                      }),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                           SizedBox(width: 24.0),
                           ReusableCard(
                             color: kACTIVE_CARD_COLOR,
+                            cardChild: Column(
+                              children: <Widget>[
+                                SizedBox(height: 11.0),
+                                Text(
+                                  "AGE",
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: kCARD_TEXT_COLOR,
+                                  ),
+                                ),
+                                SizedBox(height: 11.0),
+                                Text(
+                                  this.age.toString(),
+                                  style: TextStyle(
+                                    fontSize: 36.0,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    RoundIconButton(
+                                      icon: FontAwesomeIcons.minus,
+                                      onPressed: () => this.setState(() {
+                                        this.age--;
+                                      }),
+                                    ),
+                                    SizedBox(width: 10),
+                                    RoundIconButton(
+                                      icon: FontAwesomeIcons.plus,
+                                      onPressed: () => this.setState(() {
+                                        this.age++;
+                                      }),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
