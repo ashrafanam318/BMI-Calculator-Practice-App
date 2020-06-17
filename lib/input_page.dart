@@ -247,7 +247,13 @@ class _InputPageState extends State<InputPage> {
                 height: kBOTTOM_CONTAINER_HEIGHT,
                 width: double.infinity,
                 child: Center(
-                  child: Text("CALCULATE"),
+                  child: Text(
+                    "CALCULATE",
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
